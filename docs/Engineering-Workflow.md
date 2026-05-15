@@ -26,10 +26,16 @@ Default branch:
 main
 ```
 
-Local recommended workspace:
+Correct local organization workspace:
 
 ```text
-G:\workspace\biology-api-test
+G:\workspace\YourCitizenLab
+```
+
+Correct local repository path:
+
+```text
+G:\workspace\YourCitizenLab\biology-api-test
 ```
 
 ---
@@ -50,6 +56,7 @@ All contributors must follow these principles:
 10. **Prefer small, incremental PRs over large unreviewable changes.**
 11. **Keep the safety boundary of this project intact.**
 12. **Document known limitations clearly.**
+13. **Keep local paths consistent with the organization-level workspace layout.**
 
 ---
 
@@ -96,10 +103,11 @@ Every backend response and AI-generated result must preserve this boundary.
 Before starting any task, read the relevant files:
 
 ```text
+README.md
+docs/Engineering-Workflow.md
 docs/PRD.md
 docs/TRD.md
 docs/Demo-Script.md
-README.md
 ```
 
 For implementation tasks, `docs/TRD.md` is the primary technical reference.
@@ -108,16 +116,42 @@ For UI / product behavior, `docs/PRD.md` is the primary product reference.
 
 For demo behavior, `docs/Demo-Script.md` is the primary presentation reference.
 
+For all Git, Codex, review, branch, commit, merge, and rollback behavior, `docs/Engineering-Workflow.md` is the source of truth.
+
 ---
 
 ## 5. Local Development Setup
 
 ### 5.1 Clone Repository Locally
 
-Recommended local workspace:
+Use an organization-level workspace so all repos under `YourCitizenLab` stay grouped together.
+
+Correct local workspace:
+
+```text
+G:\workspace\YourCitizenLab
+```
+
+Correct local repo path:
+
+```text
+G:\workspace\YourCitizenLab\biology-api-test
+```
+
+HTTPS clone:
 
 ```powershell
 cd /d G:\workspace
+mkdir YourCitizenLab
+cd YourCitizenLab
+git clone https://github.com/YourCitizenLab/biology-api-test.git
+cd biology-api-test
+```
+
+If `YourCitizenLab` already exists:
+
+```powershell
+cd /d G:\workspace\YourCitizenLab
 git clone https://github.com/YourCitizenLab/biology-api-test.git
 cd biology-api-test
 ```
@@ -126,8 +160,18 @@ Alternative SSH clone:
 
 ```powershell
 cd /d G:\workspace
+mkdir YourCitizenLab
+cd YourCitizenLab
 git clone git@github.com:YourCitizenLab/biology-api-test.git
 cd biology-api-test
+```
+
+If the repo already exists locally:
+
+```powershell
+cd /d G:\workspace\YourCitizenLab\biology-api-test
+git status
+git remote -v
 ```
 
 ### 5.2 Verify Git Remote
@@ -256,7 +300,7 @@ When using Codex or any AI coding agent, the agent must follow the same engineer
 Codex must:
 
 1. inspect the repository before editing;
-2. read `README.md`, `docs/PRD.md`, `docs/TRD.md`, and `docs/Demo-Script.md`;
+2. read `README.md`, `docs/Engineering-Workflow.md`, `docs/PRD.md`, `docs/TRD.md`, and `docs/Demo-Script.md`;
 3. propose an implementation plan before modifying files;
 4. wait for approval when requested;
 5. make changes only on a feature branch;
@@ -265,7 +309,8 @@ Codex must:
 8. summarize changed files;
 9. ask for approval before commit if operating locally;
 10. never commit secrets;
-11. never push directly to `main`.
+11. never push directly to `main`;
+12. use `G:\workspace\YourCitizenLab\biology-api-test` as the local repo path when operating in the user's local Windows environment.
 
 ### 8.2 Standard Codex Prompt Header
 
@@ -278,11 +323,15 @@ This repository is for the Interactive AI Bio/Chem Discovery Simulator MVP.
 Repository:
 https://github.com/YourCitizenLab/biology-api-test
 
-Local path:
-G:\workspace\biology-api-test
+Local organization workspace:
+G:\workspace\YourCitizenLab
+
+Local repository path:
+G:\workspace\YourCitizenLab\biology-api-test
 
 Required docs to read first:
 - README.md
+- docs/Engineering-Workflow.md
 - docs/PRD.md
 - docs/TRD.md
 - docs/Demo-Script.md
@@ -535,9 +584,9 @@ Use this template:
 - [ ] 
 
 ## Test Results
-```text
+\```text
 Paste command outputs or summarize results here.
-```
+\```
 
 ## Safety Notes
 - No secrets committed.
@@ -1035,11 +1084,14 @@ This repository is for the Interactive AI Bio/Chem Discovery Simulator MVP.
 Repository:
 https://github.com/YourCitizenLab/biology-api-test
 
+Local organization workspace:
+G:\workspace\YourCitizenLab
+
 Local development path:
-G:\workspace\biology-api-test
+G:\workspace\YourCitizenLab\biology-api-test
 
 Workflow:
-Do not work directly on main. Create branch feature/backend-mvp-skeleton from latest main. Read README.md, docs/PRD.md, docs/TRD.md, docs/Demo-Script.md, and docs/Engineering-Workflow.md first.
+Do not work directly on main. Create branch feature/backend-mvp-skeleton from latest main. Read README.md, docs/Engineering-Workflow.md, docs/PRD.md, docs/TRD.md, and docs/Demo-Script.md first.
 
 Task:
 Implement Task 1 only: backend MVP skeleton.
@@ -1079,7 +1131,7 @@ Before editing files, inspect the repository and propose an implementation plan.
 The required workflow is:
 
 ```text
-clone to G:\workspace
+clone to G:\workspace\YourCitizenLab\biology-api-test
 ↓
 sync main
 ↓
