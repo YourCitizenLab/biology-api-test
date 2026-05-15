@@ -35,16 +35,20 @@ This project is **not** a wet-lab protocol generator. It does not provide synthe
 Project documents are stored under `/docs`:
 
 ```text
-docs/PRD.md          # product requirements
-docs/TRD.md          # technical requirements
-docs/Demo-Script.md  # demo presentation script
+docs/PRD.md                    # product requirements
+docs/TRD.md                    # technical requirements
+docs/Demo-Script.md            # demo presentation script
+docs/Engineering-Workflow.md   # engineering workflow and contribution rules
 ```
 
 Recommended reading order:
 
-1. `docs/PRD.md`
-2. `docs/TRD.md`
-3. `docs/Demo-Script.md`
+1. `docs/Engineering-Workflow.md`
+2. `docs/PRD.md`
+3. `docs/TRD.md`
+4. `docs/Demo-Script.md`
+
+For Codex or any AI coding agent, always read `docs/Engineering-Workflow.md` before making code changes.
 
 ---
 
@@ -80,7 +84,8 @@ biology-api-test/
 ├── docs/
 │   ├── PRD.md
 │   ├── TRD.md
-│   └── Demo-Script.md
+│   ├── Demo-Script.md
+│   └── Engineering-Workflow.md
 ├── frontend/
 │   └── Next.js frontend application
 ├── backend/
@@ -91,7 +96,51 @@ biology-api-test/
 
 ---
 
-## 5. Planned Tech Stack
+## 5. Required Engineering Workflow
+
+All contributors, including Codex or any AI coding agent, must follow this workflow:
+
+```text
+clone to G:\workspace
+↓
+sync main
+↓
+create feature branch
+↓
+read docs
+↓
+implement focused task
+↓
+run tests
+↓
+review local diff
+↓
+commit
+↓
+push feature branch
+↓
+open Pull Request
+↓
+code review
+↓
+squash merge to main
+↓
+pull latest main locally
+↓
+delete completed branch
+```
+
+Never commit directly to `main`.
+
+Full rules are documented in:
+
+```text
+docs/Engineering-Workflow.md
+```
+
+---
+
+## 6. Planned Tech Stack
 
 ### Frontend
 
@@ -145,7 +194,7 @@ USPTO reaction dataset
 
 ---
 
-## 6. Environment Variables
+## 7. Environment Variables
 
 Copy `.env.example` to `.env` locally:
 
@@ -163,7 +212,7 @@ Never commit real API keys.
 
 ---
 
-## 7. Planned Local Development
+## 8. Planned Local Development
 
 ### Backend
 
@@ -203,7 +252,7 @@ Health:   http://localhost:8000/api/health
 
 ---
 
-## 8. Planned Backend APIs
+## 9. Planned Backend APIs
 
 ```text
 GET  /api/health
@@ -215,7 +264,7 @@ POST /api/cards/suggest
 
 ---
 
-## 9. Safety Boundary
+## 10. Safety Boundary
 
 The system must not output:
 
@@ -249,7 +298,7 @@ educational visualizations
 
 ---
 
-## 10. MVP Checklist
+## 11. MVP Checklist
 
 Backend P0:
 
@@ -280,12 +329,13 @@ Docs P0:
 - [x] PRD
 - [x] TRD
 - [x] Demo Script
+- [x] Engineering Workflow
 - [x] README
 - [x] `.env.example`
 
 ---
 
-## 11. Demo Story
+## 12. Demo Story
 
 The primary demo should use the Jordan example:
 
