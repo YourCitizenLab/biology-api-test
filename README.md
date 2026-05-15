@@ -8,6 +8,12 @@ Repository:
 https://github.com/YourCitizenLab/biology-api-test
 ```
 
+Correct local path:
+
+```text
+G:\workspace\YourCitizenLab\biology-api-test
+```
+
 ---
 
 ## 1. Product Summary
@@ -101,7 +107,7 @@ biology-api-test/
 All contributors, including Codex or any AI coding agent, must follow this workflow:
 
 ```text
-clone to G:\workspace
+clone to G:\workspace\YourCitizenLab\biology-api-test
 ↓
 sync main
 ↓
@@ -213,6 +219,26 @@ Never commit real API keys.
 ---
 
 ## 8. Planned Local Development
+
+### Clone locally
+
+Windows PowerShell:
+
+```powershell
+cd /d G:\workspace
+mkdir YourCitizenLab
+cd YourCitizenLab
+git clone https://github.com/YourCitizenLab/biology-api-test.git
+cd biology-api-test
+```
+
+If `YourCitizenLab` already exists:
+
+```powershell
+cd /d G:\workspace\YourCitizenLab
+git clone https://github.com/YourCitizenLab/biology-api-test.git
+cd biology-api-test
+```
 
 ### Backend
 
