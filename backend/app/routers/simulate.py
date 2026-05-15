@@ -1,10 +1,10 @@
 from fastapi import APIRouter
 
 from app.models.schemas import SimulationRequest, SimulationResponse
+from app.services.deepseek_service import generate_candidate_concept
 from app.services.entity_service import extract_entities
 from app.services.evidence_aggregator import aggregate_evidence
 from app.services.safety_service import assess_risk
-from app.services.zhipu_service import generate_candidate_concept
 
 router = APIRouter(tags=["simulate"])
 

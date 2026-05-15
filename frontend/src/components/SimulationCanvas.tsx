@@ -19,12 +19,12 @@ export function SimulationCanvas({ selectedCards, onDropCard, onRemoveCard }: Si
     >
       <div className="flex items-center justify-between gap-3">
         <h2 className="text-base font-semibold">Simulation Canvas</h2>
-        <span className="text-xs font-medium text-slate-500">Concept-only workspace</span>
+        <span className="text-xs font-medium text-slate-500">Drag cards here, then run the simulation</span>
       </div>
       <div className="mt-4 flex min-h-32 flex-wrap gap-2">
         {selectedCards.length === 0 ? (
           <div className="flex w-full items-center justify-center rounded-md border border-slate-200 bg-white p-6 text-sm text-slate-500">
-            Select or drag cards here
+            Drop prompt-generated cards here
           </div>
         ) : (
           selectedCards.map((card) => (

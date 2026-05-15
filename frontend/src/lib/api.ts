@@ -42,6 +42,16 @@ export type FollowUpResponse = {
   suggested_actions: string[];
 };
 
+export type SuggestedCard = {
+  name: string;
+  category: string;
+  risk: RiskLevel;
+};
+
+export type CardSuggestionResponse = {
+  suggested_cards: SuggestedCard[];
+};
+
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
 
 async function postJson<T>(path: string, body: unknown): Promise<T> {
@@ -63,6 +73,10 @@ export function simulateDiscovery(input: string, cards: string[]) {
     mode: "interactive_demo",
     output_level: "concept_only",
   });
+}
+
+export function suggestCards(input: string) {
+  return postJson<CardSuggestionResponse>("/api/cards/suggest", { input });
 }
 
 export function askFollowUp(message: string, result: SimulationResult | null) {

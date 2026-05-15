@@ -3,41 +3,54 @@
 import { useMemo, useState } from "react";
 import { AgentReasoningPanel } from "@/components/AgentReasoningPanel";
 import { CardLibrary } from "@/components/CardLibrary";
-import { DemoCard, demoCards } from "@/components/cards";
+import { DemoCard, toDemoCard } from "@/components/cards";
 import { DiscoveryInput } from "@/components/DiscoveryInput";
 import { FollowUpChat } from "@/components/FollowUpChat";
 import { ResultDashboard } from "@/components/ResultDashboard";
 import { SimulationCanvas } from "@/components/SimulationCanvas";
-import { simulateDiscovery, SimulationResult } from "@/lib/api";
+import { simulateDiscovery, SimulationResult, suggestCards } from "@/lib/api";
 
 type MvpWorkspaceProps = {
   initialView: "home" | "lab" | "result";
 };
 
 const defaultPrompt = "Making a new peptide out of bull, tiger, and blue scorpion.";
-const defaultCards = ["Bull", "Tiger", "Blue Scorpion", "Peptide"];
 
 export function MvpWorkspace({ initialView }: MvpWorkspaceProps) {
   const [prompt, setPrompt] = useState(defaultPrompt);
-  const [selectedCards, setSelectedCards] = useState<string[]>(
-    initialView === "home" ? defaultCards : defaultCards
-  );
+  const [generatedCards, setGeneratedCards] = useState<DemoCard[]>([]);
+  const [selectedCards, setSelectedCards] = useState<string[]>([]);
   const [result, setResult] = useState<SimulationResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const selectedCardObjects = useMemo(
-    () => selectedCards.map((name) => demoCards.find((card) => card.name === name)).filter(Boolean),
-    [selectedCards]
+    () => selectedCards.map((name) => generatedCards.find((card) => card.name === name)).filter(Boolean),
+    [generatedCards, selectedCards]
   );
 
-  function addCard(card: DemoCard | string) {
-    const name = typeof card === "string" ? card : card.name;
+  function addCard(card: string) {
+    const name = card;
     setSelectedCards((current) => (current.includes(name) ? current : [...current, name]));
   }
 
   function removeCard(cardName: string) {
     setSelectedCards((current) => current.filter((name) => name !== cardName));
+  }
+
+  async function generatePromptCards() {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await suggestCards(prompt);
+      setGeneratedCards(response.suggested_cards.map(toDemoCard));
+      setSelectedCards([]);
+      setResult(null);
+    } catch (requestError) {
+      setError("Card suggestions are not reachable at the configured API URL.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function runSimulation() {
@@ -73,12 +86,19 @@ export function MvpWorkspace({ initialView }: MvpWorkspaceProps) {
         </nav>
       </header>
 
-      <DiscoveryInput value={prompt} isLoading={loading} onChange={setPrompt} onSubmit={runSimulation} />
+      <DiscoveryInput
+        value={prompt}
+        isLoading={loading}
+        canSimulate={selectedCards.length > 0}
+        onChange={setPrompt}
+        onGenerateCards={generatePromptCards}
+        onSimulate={runSimulation}
+      />
       {error && <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-900">{error}</div>}
 
       <div className="grid gap-5 lg:grid-cols-[320px_1fr]">
         <aside className="space-y-5">
-          <CardLibrary selectedCards={selectedCards} onAddCard={addCard} />
+          <CardLibrary generatedCards={generatedCards} canvasCards={selectedCards} />
           <AgentReasoningPanel active={loading} hasResult={Boolean(result)} />
         </aside>
         <div className="space-y-5">

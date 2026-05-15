@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 
 from app.models.schemas import FollowUpRequest, FollowUpResponse
+from app.services.deepseek_service import generate_follow_up_answer
 from app.services.safety_service import classify_text_risk
-from app.services.zhipu_service import generate_follow_up_answer
 
 router = APIRouter(tags=["chat"])
 

@@ -3,11 +3,20 @@
 type DiscoveryInputProps = {
   value: string;
   isLoading: boolean;
+  canSimulate: boolean;
   onChange: (value: string) => void;
-  onSubmit: () => void;
+  onGenerateCards: () => void;
+  onSimulate: () => void;
 };
 
-export function DiscoveryInput({ value, isLoading, onChange, onSubmit }: DiscoveryInputProps) {
+export function DiscoveryInput({
+  value,
+  isLoading,
+  canSimulate,
+  onChange,
+  onGenerateCards,
+  onSimulate,
+}: DiscoveryInputProps) {
   return (
     <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-surface">
       <label className="text-sm font-semibold text-slate-700" htmlFor="discovery-input">
@@ -22,10 +31,17 @@ export function DiscoveryInput({ value, isLoading, onChange, onSubmit }: Discove
         />
         <button
           className="rounded-md bg-ink px-5 py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
-          onClick={onSubmit}
+          onClick={onGenerateCards}
           disabled={isLoading || !value.trim()}
         >
-          {isLoading ? "Simulating" : "Generate"}
+          {isLoading ? "Generating" : "Generate Cards"}
+        </button>
+        <button
+          className="rounded-md bg-signal px-5 py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
+          onClick={onSimulate}
+          disabled={isLoading || !canSimulate}
+        >
+          {isLoading ? "Working" : "Simulate Selected Cards"}
         </button>
       </div>
     </section>

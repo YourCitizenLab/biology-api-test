@@ -67,7 +67,7 @@ Next.js Frontend
 ↓
 FastAPI Backend
 ↓
-Zhipu AI Agent Service
+DeepSeek AI Agent Service
 ↓
 Scientific Database Connectors
 ↓
@@ -166,7 +166,7 @@ FastAPI
 Python
 Pydantic
 HTTPX
-Zhipu AI SDK
+DeepSeek API (OpenAI-compatible)
 Redis
 PostgreSQL
 ```
@@ -211,7 +211,8 @@ cp .env.example .env
 Then fill in local keys:
 
 ```bash
-ZHIPU_API_KEY=your_zhipu_api_key_here
+DEEPSEEK_API_KEY=your_deepseek_api_key_here
+DEEPSEEK_BASE_URL=https://api.deepseek.com
 ```
 
 Never commit real API keys.
@@ -331,7 +332,7 @@ Backend P0:
 - [ ] FastAPI app initialized
 - [ ] `/api/health`
 - [ ] `/api/simulate`
-- [ ] Zhipu AI service
+- [ ] DeepSeek AI service
 - [ ] safety service
 - [ ] entity extraction service
 - [ ] PubChem connector
@@ -431,7 +432,8 @@ For local development, copy `.env.example` to `.env` and keep real values local 
 
 ```text
 NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
-ZHIPU_API_KEY=your_zhipu_api_key_here
+DEEPSEEK_API_KEY=your_deepseek_api_key_here
+DEEPSEEK_BASE_URL=https://api.deepseek.com
 ```
 
 `NEXT_PUBLIC_API_BASE_URL` is safe for the browser. Do not put API keys or backend secrets in any `NEXT_PUBLIC_*` variable.
@@ -452,6 +454,6 @@ Expected behavior:
 ### Current MVP Limitations
 
 - External database connectors are lightweight and use mock fallback evidence when calls fail.
-- Zhipu AI uses deterministic mock output when `ZHIPU_API_KEY` is missing.
+- DeepSeek uses deterministic mock output when `DEEPSEEK_API_KEY` is missing.
 - No production database, authentication, deployment pipeline, or saved project history yet.
 - The app is restricted to concept-level educational output and does not provide operational bio/chem instructions.

@@ -18,11 +18,11 @@ SYSTEM_SAFETY_BOUNDARY = (
 def generate_candidate_concept(
     user_input: str, cards: list[str], risk: RiskAssessment
 ) -> CandidateConcept:
-    if not settings.zhipu_api_key:
+    if not settings.deepseek_api_key:
         return _mock_candidate_concept(risk)
 
     try:
-        content = _call_zhipu(
+        content = _call_deepseek(
             [
                 {"role": "system", "content": SYSTEM_SAFETY_BOUNDARY},
                 {
@@ -55,10 +55,10 @@ def generate_candidate_concept(
 
 
 def generate_follow_up_answer(message: str, risk_level: str) -> str:
-    if not settings.zhipu_api_key:
+    if not settings.deepseek_api_key:
         return _mock_follow_up_answer(risk_level)
     try:
-        answer = _call_zhipu(
+        answer = _call_deepseek(
             [
                 {"role": "system", "content": SYSTEM_SAFETY_BOUNDARY},
                 {
@@ -75,17 +75,19 @@ def generate_follow_up_answer(message: str, risk_level: str) -> str:
         return _mock_follow_up_answer(risk_level)
 
 
-def _call_zhipu(messages: list[dict[str, str]]) -> str:
+def _call_deepseek(messages: list[dict[str, str]]) -> str:
     response = httpx.post(
-        "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+        f"{settings.deepseek_base_url.rstrip('/')}/chat/completions",
         headers={
-            "Authorization": f"Bearer {settings.zhipu_api_key}",
+            "Authorization": f"Bearer {settings.deepseek_api_key}",
             "Content-Type": "application/json",
         },
         json={
-            "model": settings.zhipu_model,
+            "model": settings.deepseek_model,
             "messages": messages,
-            "temperature": 0.2,
+            "stream": False,
+            "reasoning_effort": settings.deepseek_reasoning_effort,
+            "thinking": {"type": "enabled"},
         },
         timeout=settings.external_api_timeout_seconds,
     )

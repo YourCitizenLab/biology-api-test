@@ -195,7 +195,7 @@ Backend path:
 Recommended stack:
 
 ```text
-FastAPI + Python + Pydantic + HTTPX + Zhipu AI SDK + Redis + PostgreSQL
+FastAPI + Python + Pydantic + HTTPX + DeepSeek API + Redis + PostgreSQL
 ```
 
 Required backend APIs:
@@ -211,7 +211,7 @@ GET /api/health
 Backend responsibilities:
 
 1. receive frontend requests;
-2. call Zhipu AI for entity extraction and explanation generation;
+2. call DeepSeek for entity extraction and explanation generation;
 3. call public scientific databases;
 4. aggregate evidence;
 5. run safety filters;
@@ -248,9 +248,9 @@ Backend responsibilities:
 
 ---
 
-## 10. Zhipu AI Integration
+## 10. DeepSeek Integration
 
-Zhipu AI is used as the Agent reasoning and language layer. It should not replace scientific databases.
+DeepSeek is used as the Agent reasoning and language layer. It should not replace scientific databases.
 
 Responsibilities:
 
@@ -266,10 +266,10 @@ Safety-aware explanation
 API Key must be loaded from environment variables only:
 
 ```bash
-ZHIPU_API_KEY=your_zhipu_api_key_here
+DEEPSEEK_API_KEY=your_deepseek_api_key_here
 ```
 
-The frontend must never directly access the Zhipu API key.
+The frontend must never directly access the DeepSeek API key.
 
 ---
 
@@ -327,7 +327,7 @@ educational visualizations
 - natural language input;
 - drag-and-drop cards;
 - `/api/simulate`;
-- Zhipu AI integration;
+- DeepSeek integration;
 - PubChem connector;
 - UniProt connector;
 - ChEMBL connector;
