@@ -67,7 +67,7 @@ Next.js Frontend
 ↓
 FastAPI Backend
 ↓
-Zhipu AI Agent Service
+DeepSeek AI Agent Service
 ↓
 Scientific Database Connectors
 ↓
@@ -166,7 +166,7 @@ FastAPI
 Python
 Pydantic
 HTTPX
-Zhipu AI SDK
+DeepSeek API (OpenAI-compatible)
 Redis
 PostgreSQL
 ```
@@ -211,7 +211,8 @@ cp .env.example .env
 Then fill in local keys:
 
 ```bash
-ZHIPU_API_KEY=your_zhipu_api_key_here
+DEEPSEEK_API_KEY=your_deepseek_api_key_here
+DEEPSEEK_BASE_URL=https://api.deepseek.com
 ```
 
 Never commit real API keys.
@@ -331,7 +332,7 @@ Backend P0:
 - [ ] FastAPI app initialized
 - [ ] `/api/health`
 - [ ] `/api/simulate`
-- [ ] Zhipu AI service
+- [ ] DeepSeek AI service
 - [ ] safety service
 - [ ] entity extraction service
 - [ ] PubChem connector
@@ -378,3 +379,81 @@ Peptide is interpreted as a bioactive peptide scaffold.
 ```
 
 The output should remain concept-level and include a high-risk safety warning because venom/toxin-related biology is involved.
+
+---
+
+## 13. Working MVP Local Run
+
+### Backend
+
+Windows PowerShell:
+
+```powershell
+cd G:\workspace\YourCitizenLab\biology-api-test\backend
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
+```
+
+Health check:
+
+```powershell
+curl http://localhost:8000/api/health
+```
+
+Jordan simulation check:
+
+```powershell
+curl -X POST http://localhost:8000/api/simulate ^
+  -H "Content-Type: application/json" ^
+  -d "{\"input\":\"Making a new peptide out of bull, tiger, and blue scorpion.\",\"cards\":[\"Bull\",\"Tiger\",\"Blue Scorpion\",\"Peptide\"],\"mode\":\"interactive_demo\",\"output_level\":\"concept_only\"}"
+```
+
+### Frontend
+
+Windows PowerShell:
+
+```powershell
+cd G:\workspace\YourCitizenLab\biology-api-test\frontend
+npm install
+npm run dev
+```
+
+Open:
+
+```text
+http://localhost:3000
+```
+
+### Environment Variables
+
+For local development, copy `.env.example` to `.env` and keep real values local only.
+
+```text
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+DEEPSEEK_API_KEY=your_deepseek_api_key_here
+DEEPSEEK_BASE_URL=https://api.deepseek.com
+```
+
+`NEXT_PUBLIC_API_BASE_URL` is safe for the browser. Do not put API keys or backend secrets in any `NEXT_PUBLIC_*` variable.
+
+### Demo Prompt
+
+```text
+Making a new peptide out of bull, tiger, and blue scorpion.
+```
+
+Expected behavior:
+
+- Bull and tiger map to mammalian biological references.
+- Blue Scorpion maps to a venom peptide / toxin-related source.
+- Peptide maps to a bioactive peptide scaffold.
+- The result returns high risk and `concept_only` allowed output.
+
+### Current MVP Limitations
+
+- External database connectors are lightweight and use mock fallback evidence when calls fail.
+- DeepSeek uses deterministic mock output when `DEEPSEEK_API_KEY` is missing.
+- No production database, authentication, deployment pipeline, or saved project history yet.
+- The app is restricted to concept-level educational output and does not provide operational bio/chem instructions.

@@ -8,7 +8,7 @@ The system is a monorepo-based web application with:
 
 - a Next.js frontend;
 - a FastAPI backend;
-- Zhipu AI as the LLM / Agent orchestration layer;
+- DeepSeek as the LLM / Agent orchestration layer;
 - public scientific database connectors;
 - safety filtering;
 - structured evidence aggregation;
@@ -76,7 +76,7 @@ biology-api-test/
 │       │   └── cards.py
 │       ├── services/
 │       │   ├── agent_service.py
-│       │   ├── zhipu_service.py
+│       │   ├── deepseek_service.py
 │       │   ├── entity_service.py
 │       │   ├── safety_service.py
 │       │   ├── evidence_aggregator.py
@@ -115,7 +115,7 @@ FastAPI Backend
 ↓
 Agent Orchestrator
 ↓
-Zhipu AI Service
+DeepSeek Service
 ↓
 Entity Extraction / Query Planning / Explanation Generation
 ↓
@@ -198,7 +198,7 @@ FastAPI
 Python 3.11+
 Pydantic
 HTTPX
-Zhipu AI SDK
+DeepSeek API
 Redis
 PostgreSQL
 ```
@@ -407,11 +407,11 @@ Response:
 
 ---
 
-## 7. Zhipu AI Integration
+## 7. DeepSeek Integration
 
 ### 7.1 Purpose
 
-Zhipu AI is used for:
+DeepSeek is used for:
 
 ```text
 entity extraction
@@ -427,14 +427,15 @@ It must not be the sole source of scientific facts. Scientific evidence should c
 ### 7.2 Environment Variables
 
 ```bash
-ZHIPU_API_KEY=your_zhipu_api_key_here
-ZHIPU_MODEL=glm-4-plus
+DEEPSEEK_API_KEY=your_deepseek_api_key_here
+DEEPSEEK_BASE_URL=https://api.deepseek.com
+DEEPSEEK_MODEL=deepseek-v4-pro
 ```
 
 ### 7.3 Service File
 
 ```text
-backend/app/services/zhipu_service.py
+backend/app/services/deepseek_service.py
 ```
 
 ### 7.4 System Prompt Requirement
@@ -621,13 +622,13 @@ substrate-product relationships
 ```text
 1. Receive user input and selected cards.
 2. Run safety pre-check.
-3. Use Zhipu AI to extract structured entities.
+3. Use DeepSeek to extract structured entities.
 4. Normalize entity types.
 5. Route entities to suitable database connectors.
 6. Fetch public database evidence.
 7. Aggregate and deduplicate evidence.
 8. Run safety post-check.
-9. Use Zhipu AI to generate concept-level response.
+9. Use DeepSeek to generate concept-level response.
 10. Validate output against safety policy.
 11. Return structured JSON to frontend.
 ```
@@ -763,8 +764,9 @@ CREATE TABLE chat_messages (
 ```bash
 BACKEND_ENV=development
 BACKEND_PORT=8000
-ZHIPU_API_KEY=your_zhipu_api_key_here
-ZHIPU_MODEL=glm-4-plus
+DEEPSEEK_API_KEY=your_deepseek_api_key_here
+DEEPSEEK_BASE_URL=https://api.deepseek.com
+DEEPSEEK_MODEL=deepseek-v4-pro
 EPA_COMPTOX_API_KEY=your_epa_comptox_api_key_here
 DATABASE_URL=postgresql://biology:biology@localhost:5432/biology_demo
 REDIS_URL=redis://localhost:6379/0
@@ -830,9 +832,9 @@ If one database fails, the system should:
 3. show a warning in the evidence card;
 4. not fail the entire simulation unless all evidence sources fail.
 
-### 14.2 Zhipu AI Failure
+### 14.2 DeepSeek Failure
 
-If Zhipu AI fails:
+If DeepSeek fails:
 
 1. return a structured error;
 2. show retry option;
@@ -858,7 +860,7 @@ UniProt query cache
 ChEMBL query cache
 RCSB PDB query cache
 AlphaFold query cache
-Zhipu entity extraction cache
+DeepSeek entity extraction cache
 simulation result cache
 ```
 
@@ -866,7 +868,7 @@ Recommended TTL:
 
 ```text
 external database results: 24 hours
-Zhipu extraction result: 6 hours
+DeepSeek extraction result: 6 hours
 simulation result: 24 hours
 ```
 
@@ -906,7 +908,7 @@ manual environment variable setup
 - [ ] FastAPI app initialized
 - [ ] `/api/health`
 - [ ] `/api/simulate`
-- [ ] Zhipu AI service
+- [ ] DeepSeek service
 - [ ] Safety service
 - [ ] Entity extraction service
 - [ ] PubChem connector
@@ -937,4 +939,4 @@ manual environment variable setup
 
 ## 18. Technical Summary
 
-The system should be implemented as a monorepo in `YourCitizenLab/biology-api-test`, with frontend code under `/frontend`, backend code under `/backend`, and product / technical documentation under `/docs`. The backend orchestrates Zhipu AI and public scientific database connectors to generate structured, safe, concept-level discovery results for the interactive frontend.
+The system should be implemented as a monorepo in `YourCitizenLab/biology-api-test`, with frontend code under `/frontend`, backend code under `/backend`, and product / technical documentation under `/docs`. The backend orchestrates DeepSeek and public scientific database connectors to generate structured, safe, concept-level discovery results for the interactive frontend.

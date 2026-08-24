@@ -231,7 +231,7 @@ Use descriptive branch names:
 
 ```text
 feature/backend-mvp-skeleton
-feature/zhipu-integration
+feature/deepseek-integration
 feature/scientific-connectors
 feature/frontend-mvp
 feature/frontend-backend-integration
@@ -279,7 +279,7 @@ The project should be developed in small stages:
 
 ```text
 Task 1: Backend MVP skeleton
-Task 2: Zhipu AI integration
+Task 2: DeepSeek integration
 Task 3: Scientific database connectors
 Task 4: Frontend MVP
 Task 5: Frontend-backend integration
@@ -437,7 +437,7 @@ Prefer conventional style when possible:
 
 ```text
 feat: implement backend MVP skeleton
-fix: handle missing Zhipu API key
+fix: handle missing DeepSeek API key
 chore: add environment variable template
 docs: add engineering workflow
 refactor: simplify evidence aggregation
@@ -497,7 +497,7 @@ Examples:
 
 ```text
 feat: implement backend MVP skeleton
-feat: add Zhipu AI service wrapper
+feat: add DeepSeek service wrapper
 fix: prevent unsafe protocol output
 fix: handle failed UniProt API response
 docs: add engineering workflow
@@ -774,8 +774,9 @@ for placeholders only.
 ```bash
 BACKEND_ENV=development
 BACKEND_PORT=8000
-ZHIPU_API_KEY=your_zhipu_api_key_here
-ZHIPU_MODEL=glm-4-plus
+DEEPSEEK_API_KEY=your_deepseek_api_key_here
+DEEPSEEK_BASE_URL=https://api.deepseek.com
+DEEPSEEK_MODEL=deepseek-v4-pro
 EPA_COMPTOX_API_KEY=your_epa_comptox_api_key_here
 DATABASE_URL=postgresql://biology:biology@localhost:5432/biology_demo
 REDIS_URL=redis://localhost:6379/0
@@ -801,7 +802,7 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 Not allowed:
 
 ```bash
-NEXT_PUBLIC_ZHIPU_API_KEY=...
+NEXT_PUBLIC_DEEPSEEK_API_KEY=...
 ```
 
 ---
@@ -873,7 +874,7 @@ Rhea
 
 ## 17. AI / LLM Output Rules
 
-Zhipu AI or any future LLM provider must be called from backend only.
+DeepSeek or any future LLM provider must be called from backend only.
 
 The frontend must never call LLM providers directly.
 
